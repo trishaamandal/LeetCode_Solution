@@ -34,4 +34,26 @@ The number of nodes in the tree is n.
 1 <= Node.val <= 106
 1 <= k <= n
 
-=>
+=>class Solution:
+    def kthLargestLevelSum(self, root: TreeNode, k: int) -> int:
+        res = []  
+        q = deque([root])  
+
+        while q:
+            n = len(q)  
+            level_sum = 0  
+            
+            for _ in range(n):
+                node = q.popleft()
+                level_sum += node.val
+                
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            res.append(level_sum) 
+        if k > len(res):
+            return -1
+        res.sort(reverse=True) 
+        
+        return res[k-1]
